@@ -13,7 +13,7 @@ import utils
 from line import Line
 
 
-m_per_pix = 30/720 # meters per pixel in y dimension
+ym_per_pix = 30/720 # meters per pixel in y dimension
 xm_per_pix = 3.7/700 # meters per pixel in x dimension
 
 
@@ -45,7 +45,7 @@ class LaneFinder:
         self.left_line = Line()
         self.right_line = Line()
         
-        self.n = 5
+        self.n = 7
         
         
     def get_undistored_image(self, img, outfile=None):
@@ -259,11 +259,11 @@ class LaneFinder:
         
        
         left_fit, right_fit, left_fitx, right_fitx, resleft, resright = self.fit_polynomial()
-        print('old', left_fit, right_fit)
+        # print('left_fit, right_fit)
  
         curverad_f = lambda p, y:  (1 + (2*p[0] * y + p[1])**2)**(3/2) /(2*np.abs(p[0]))
-        left_curverad = curverad_f(left_fit, self.img_size[1]-1)
-        right_curverad = curverad_f(right_fit, self.img_size[1]-1)
+        # left_curverad = curverad_f(left_fit, self.img_size[1]-1)
+        # right_curverad = curverad_f(right_fit, self.img_size[1]-1)
       
         
         # left_fit, right_fit = self.model_correction(left_fit, right_fit,
@@ -273,30 +273,77 @@ class LaneFinder:
         
         self.left_line.current_fit = left_fit
         self.right_line.current_fit = right_fit
+        self.left_line.radius_of_curvature = curverad_f(self.left_line.best_fit, 
+                                                        self.img_size[1]-1 * ym_per_pix) 
+        self.right_line.radius_of_curvature = curverad_f(self.right_line.best_fit, 
+                                                        self.img_size[1]-1 * ym_per_pix) 
 
         
-        self.left_line.diffs = self.left_line.best_fit - left_fit
-        self.right_line.diffs = self.right_line.best_fit - right_fit
+        self.left_line.diffs = np.abs(self.left_line.best_fit - left_fit)
+        self.right_line.diffs = np.abs(self.right_line.best_fit - right_fit)
         
-        self.left_line.recent_xfitted.append(left_fitx)
-        self.right_line.recent_xfitted.append(right_fitx)
+        # print(np.average(self.left_line.diffs), np.average(self.right_line.diffs))
         
-        if len(self.left_line.recent_xfitted) > 5:
-            self.left_line.recent_xfitted.pop(0)
-            self.right_line.recent_xfitted.pop(0)            
+        if (np.mean(self.left_line.diffs + self.right_line.diffs) > 10
+            	and self.left_line.first_fit):
+            self.left_line.detected = False
+            self.right_line.detected = False 
             
-        self.left_line.best_fit += left_fit/2
-        self.right_line.best_fit  += left_fit/2
+            self.left_line.current_fit = self.left_line.best_fit
+            self.right_line.current_fit = self.right_line.best_fit
+        else:           
+            self.left_line.recent_xfitted.append(left_fitx)
+            self.right_line.recent_xfitted.append(right_fitx)        
+          
+            self.left_line.recent_fitt_coeffs.append(left_fit)
+            self.right_line.recent_fitt_coeffs.append(right_fit)
         
+        if self.left_line.first_fit:
+               
+            self.left_line.best_fit = left_fit
+            self.right_line.best_fit = right_fit
+            self.left_line.first_fit = True
+            self.right_line.first_fit = True
+            
         
-        self.left_line.bestx = np.mean(self.left_line.recent_xfitted, axis=0)
-        self.right_line.bestx = np.mean(self.right_line.recent_xfitted, axis=0)
+        if len(self.left_line.recent_xfitted) > self.n:           
+            
+            self.left_line.bestx = np.mean(self.left_line.recent_xfitted, axis=0)
+            self.right_line.bestx = np.mean(self.right_line.recent_xfitted, axis=0)  
+            
+            self.left_line.recent_xfitted.clear()
+            self.right_line.recent_xfitted.clear()
+            
+            self.left_line.recent_xfitted.append(self.left_line.bestx)
+            self.right_line.recent_xfitted.append(self.right_line.bestx)            
+          
+            
+        if len(self.left_line.recent_fitt_coeffs) > self.n:
+            self.left_line.best_fit = np.mean(self.left_line.recent_fitt_coeffs, axis=0)
+            self.right_line.best_fit = np.mean(self.right_line.recent_fitt_coeffs, axis=0)
+            
+            self.left_line.recent_fitt_coeffs.clear()
+            self.right_line.recent_fitt_coeffs.clear()
+            
+            self.left_line.current_fit = self.left_line.best_fit
+            self.right_line.current_fit = self.right_line.best_fit
+
+                
+        y = np.linspace(0, self.img_size[1]-1, self.img_size[1])
+        out_img = self.draw_lanes(undistorted, np.polyval(self.left_line.current_fit, y), 
+                                    np.polyval(self.right_line.current_fit, y))
         
+        out_img = self.draw_lane_info(out_img)        
+       
+        # cv2.putText(out_img, '{:.3f} {:.3f} {:.3f} {:.1f}'.format(
+        #      self.left_line.current_fit[0], self.left_line.current_fit[1], self.left_line.current_fit[2],np.std(self.left_line.recent_xfitted[-1])),
+        #             (50, 50), 
+        #             cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255,255,255), 1)
         
-        
-        out_img = self.draw_lanes(undistorted, np.polyval(left_fit,  np.linspace(0, self.img_size[1]-1, self.img_size[1])), 
-                                   np.polyval(right_fit,  np.linspace(0, self.img_size[1]-1, self.img_size[1])))
-        
+        # cv2.putText(out_img, '{:.3f} {:.3f} {:.3f} {:.1f}'.format(
+        #      self.right_line.current_fit[0], self.right_line.current_fit[1], self.right_line.current_fit[2],np.std(self.right_line.recent_xfitted[-1])),
+        #             (50, 80), 
+        #             cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255,255,255), 1)
         return out_img
         
         
@@ -321,6 +368,53 @@ class LaneFinder:
         result = cv2.addWeighted(undist_img, 1, newwarp, 0.3, 0)
        
         return result
+    
+    def draw_lane_info(self, img):
+        
+        curv = (self.left_line.radius_of_curvature + 
+                  self.right_line.radius_of_curvature)/2
+        
+        
+        xl = self.left_line.recent_xfitted[-1][self.img_size[1]-1]        
+        xr = self.right_line.recent_xfitted[-1][self.img_size[1]-1]
+        color = (255, 255, 255)
+        xtextcoord = int(self.img_size[0]/2-150)
+        
+        infobox = np.zeros_like(img)
+        infobox[20:100,xtextcoord-60:xtextcoord+350] = color
+        img = cv2.addWeighted(img, 1, infobox, 0.2, 0)
+        
+        lane_center = (xl + xr) / 2
+        car_center = self.img_size[1]/2
+        
+        offset = np.abs(lane_center - car_center) * xm_per_pix
+        offsettxt = 'Car is {} from Center: {:0.2f} m'
+        curvetxt = 'Curvature {0:0.3f}m'
+        
+        
+        if lane_center > car_center:
+            offsettxt = offsettxt.format('left', offset)
+        elif lane_center < car_center:
+            offsettxt = offsettxt.format('right', offset)
+        else:
+            offsettxt = 'Car is in Center'
+            xtextcoord = int(self.img_size[0]/2-100)          
+        
+        if (np.std(self.left_line.recent_xfitted[-1]) < 50 and
+            np.std(self.right_line.recent_xfitted[-1]) < 50):
+            curvetxt = 'straight line'
+                 
+       
+            
+        cv2.putText(img, offsettxt, (xtextcoord, 50), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 1)
+        cv2.putText(img, curvetxt.format(curv),
+                    (int(self.img_size[0]/2-100), 80), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 1)
+            
+        return img
+        
+        
             
     def model_correction(self, left_fit, right_fit, 
                           resleft, resright, left_curverad, right_curverad):

@@ -15,6 +15,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from lanefinder import LaneFinder
+from moviepy.editor import VideoFileClip
 
 
 CAL_IMAGE_NAMES = glob.glob('./camera_cal/calibration*.jpg')
@@ -95,7 +96,23 @@ if __name__ == '__main__':
         mtx = data['mtx']
         dist = data['dist']
         
-    pipeline_test(TEST_IMGAGE_DIR, OUT_DIR, mtx, dist)
+    # pipeline_test(TEST_IMGAGE_DIR, OUT_DIR, mtx, dist)
+    
+    # videopath = 'project_video.mp4'
+    # lanefinder = LaneFinder(mtx, dist, (1280, 720))
+    # video_clip = VideoFileClip(videopath)
+    # out_clip = video_clip.fl_image(lanefinder.find_lanes) #NOTE: this function expects color images!!
+    # out_clip.write_videofile('project_video_with_lanes1.mp4', audio=False)
+    
+    videopath = 'challenge_video.mp4'
+    lanefinder = LaneFinder(mtx, dist, (1280, 720))
+    video_clip = VideoFileClip(videopath)
+    out_clip = video_clip.fl_image(lanefinder.find_lanes) #NOTE: this function expects color images!!
+    out_clip.write_videofile('challenge_video_with_lanes.mp4', audio=False)
+    
+    
+    
+    
      
    
         

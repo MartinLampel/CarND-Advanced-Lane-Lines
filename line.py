@@ -9,12 +9,15 @@ import numpy as np
 
 class Line():
     def __init__(self):
+        self.first_fit = False
         # was the line detected in the last iteration?
         self.detected = False  
         # x values of the last n fits of the line
         self.recent_xfitted = []
         #average x values of the fitted line over the last n iterations
-        self.bestx = None     
+        self.bestx = None   
+        # n fits
+        self.recent_fitt_coeffs = []
         #polynomial coefficients averaged over the last n iterations
         self.best_fit = np.array([0,0,0], dtype='float')   
         #polynomial coefficients for the most recent fit
