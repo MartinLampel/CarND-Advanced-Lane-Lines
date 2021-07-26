@@ -71,9 +71,18 @@ def pipeline_test(imgdir, outdir, mtx, dist):
         cv2.imwrite(os.path.join(outdir, basename + '_final.jpg'), final_img)
         
         
-          
+        
 
-
+class Extractor:
+    def __init__(self):
+        self.out = './challenge/{}.jpg'
+        self.n = 0
+    def extract(self, img):
+        cv2.imwrite(self.out.format(self.n), cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        self.n += 1
+        
+        return img
+    
 
 if __name__ == '__main__':
     
@@ -104,11 +113,14 @@ if __name__ == '__main__':
     # out_clip = video_clip.fl_image(lanefinder.find_lanes) #NOTE: this function expects color images!!
     # out_clip.write_videofile('project_video_with_lanes1.mp4', audio=False)
     
-    videopath = 'challenge_video.mp4'
-    lanefinder = LaneFinder(mtx, dist, (1280, 720))
-    video_clip = VideoFileClip(videopath)
-    out_clip = video_clip.fl_image(lanefinder.find_lanes) #NOTE: this function expects color images!!
-    out_clip.write_videofile('challenge_video_with_lanes.mp4', audio=False)
+    # videopath = 'challenge_video.mp4'
+    # extractor = Extractor()
+    # lanefinder = LaneFinder(mtx, dist, (1280, 720))
+    # video_clip = VideoFileClip(videopath)
+    # out_clip = video_clip.fl_image(extractor.extract) #NOTE: this function expects color images!!
+    # out_clip.write_videofile('challenge_video_with_lanes.mp4', audio=False)
+    
+    pipeline_test('challenge', 'challenge_out', mtx, dist)
     
     
     
