@@ -24,8 +24,7 @@ OUT_DIR = 'output_images'
 
 DO_CALIBRATION = False
 
-def pipeline_test(imgdir, outdir, mtx, dist):
-   
+def pipeline_test(imgdir, outdir, mtx, dist):  
   
     
     for img_path in os.listdir(imgdir):
@@ -105,22 +104,15 @@ if __name__ == '__main__':
         mtx = data['mtx']
         dist = data['dist']
         
-    # pipeline_test(TEST_IMGAGE_DIR, OUT_DIR, mtx, dist)
+    pipeline_test(TEST_IMGAGE_DIR, OUT_DIR, mtx, dist)
     
-    # videopath = 'project_video.mp4'
-    # lanefinder = LaneFinder(mtx, dist, (1280, 720))
-    # video_clip = VideoFileClip(videopath)
-    # out_clip = video_clip.fl_image(lanefinder.find_lanes) #NOTE: this function expects color images!!
-    # out_clip.write_videofile('project_video_with_lanes1.mp4', audio=False)
+    videopath = 'project_video.mp4'
+    lanefinder = LaneFinder(mtx, dist, (1280, 720))
+    video_clip = VideoFileClip(videopath)
+    out_clip = video_clip.fl_image(lanefinder.find_lanes) 
+    out_clip.write_videofile('project_video_with_lanes.mp4', audio=False)
     
-    # videopath = 'challenge_video.mp4'
-    # extractor = Extractor()
-    # lanefinder = LaneFinder(mtx, dist, (1280, 720))
-    # video_clip = VideoFileClip(videopath)
-    # out_clip = video_clip.fl_image(extractor.extract) #NOTE: this function expects color images!!
-    # out_clip.write_videofile('challenge_video_with_lanes.mp4', audio=False)
-    
-    pipeline_test('challenge', 'challenge_out', mtx, dist)
+
     
     
     
