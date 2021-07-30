@@ -28,7 +28,9 @@ The goals / steps of this project are the following:
 
 ## Camera Calibration
 ---
-  
+Solarized dark             |  Solarized Ocean
+:-------------------------:|:-------------------------:
+![](output_images/img1distorted.png)  |  ![](output_images/img1distorted.png)
 <div style="display: table;margin: 0 auto;">
     <img src="output_images/img1distorted.png" alt="distorted image" /><br>    
     <img src="output_images/img1distorted.png" alt="undistorted image" /><br>
