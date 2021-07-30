@@ -67,9 +67,7 @@ image with polygon       | warped image with polygon
 ## Project Video
 ---
 
-<video width="320" height="240" controls>
-  <source src="project_video_with_lanes.mp4" type="video/mp4">
-</video>
+https://github.com/MartinLampel/CarND-Advanced-Lane-Lines/blob/c5045821439ded981621938080aef11004a02e38/project_video_with_lanes.mp4
 
 ## Discussion
 ---
