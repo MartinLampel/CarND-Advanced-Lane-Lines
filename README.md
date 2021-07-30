@@ -28,15 +28,38 @@ The goals / steps of this project are the following:
 
 ## Camera Calibration
 ---
-
   
 <p align="center">
-    <img src="output_images/img1distored.jpg" width="640" alt="distorted image" /><br>    
+    <img src="output_images/img1distorted.png" width="640" alt="distorted image" /><br>    
 </p>
-  
-## Pipeline  
-  
+
 <p align="center">
-    <img src="output_images/img1undistorted.jpg" alt="undistorted image" /><br>
+    <img src="output_images/img1distorted.png" alt="undistorted image" /><br>
     <b>General Process</b><br>
 </p>
+
+## Pipeline test
+---
+
+### Undistorted Image
+
+### Image Transformations
+
+### Perspective Transform
+
+
+### Lane Identification
+
+
+### Radius and Position
+
+### Final Output
+
+
+## Project Video
+---
+
+## Discussion
+---
+
+
