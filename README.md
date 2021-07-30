@@ -28,18 +28,20 @@ The goals / steps of this project are the following:
 
 ## Camera Calibration
 ---
-Solarized dark             |  Solarized Ocean
+distorted image            | undistorted image
 :-------------------------:|:-------------------------:
 ![](output_images/img1distorted.png)  |  ![](output_images/img1distorted.png)
-<div style="display: table;margin: 0 auto;">
-    <img src="output_images/img1distorted.png" alt="distorted image" /><br>    
-    <img src="output_images/img1distorted.png" alt="undistorted image" /><br>
-</div>
+
+
 
 ## Pipeline test
 ---
 
 ### Undistorted Image
+
+distorted image            | undistorted image
+:-------------------------:|:-------------------------:
+![](output_images/straight_lines1.jpg)  |  ![](output_images/straight_lines1_undistored.jpg)
 
 ### Image Transformations
 
