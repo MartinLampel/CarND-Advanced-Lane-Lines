@@ -29,13 +29,14 @@ The goals / steps of this project are the following:
 ## Camera Calibration
 ---
   
-<p align="center">
+<p align="left">
     <img src="output_images/img1distorted.png" alt="distorted image" /><br>    
+    <b>distorted calibration image</b><br>
 </p>
 
-<p align="center">
+<p align="right">
     <img src="output_images/img1distorted.png" alt="undistorted image" /><br>
-    <b>General Process</b><br>
+    <b>undistorted calibration image</b><br>
 </p>
 
 ## Pipeline test
