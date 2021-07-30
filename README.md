@@ -21,16 +21,16 @@ The goals / steps of this project are the following:
 ##Project Structure
 ---
 
-[`main.py`](main.py) : contains the code that test the pipeline and augments the video with lanes
-[`lanefinder.py`](lanefinder.py) : the LaneFinder class implementens the various steps for the lane detections
-[`line.py`](lanefinder.py) : the class Line is based on the suggested class from the course and stores various informations about the line
-[`utils.py`](utils.py) : in this module are various functions to extract different informatios from the channels or gradients by applying thresholds 
+* [`main.py`](main.py) : contains the code that test the pipeline and augments the video with lanes
+* [`lanefinder.py`](lanefinder.py) : the LaneFinder class implementens the various steps for the lane detections
+* [`line.py`](lanefinder.py) : the class Line is based on the suggested class from the course and stores various informations about the line
+* [`utils.py`](utils.py) : in this module are various functions to extract different informatios from the channels or gradients by applying thresholds 
 
 ## Camera Calibration
 ---
   
 <p align="center">
-    <img src="output_images/img1distorted.png" width="640" alt="distorted image" /><br>    
+    <img src="output_images/img1distorted.png" alt="distorted image" /><br>    
 </p>
 
 <p align="center">
