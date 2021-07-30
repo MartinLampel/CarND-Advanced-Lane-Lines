@@ -28,7 +28,7 @@ The goals / steps of this project are the following:
 
 ## Camera Calibration
 ---
-distorted image            | undistorted image
+distorted image            | distortion-corrected image
 :-------------------------:|:-------------------------:
 ![](output_images/img1distorted.png)  |  ![](output_images/img1distorted.png)
 
@@ -39,7 +39,7 @@ distorted image            | undistorted image
 
 ### Undistorted Image
 
-distorted image            | undistorted image
+distorted image            | distortion-corrected image
 :-------------------------:|:-------------------------:
 ![](test_images/straight_lines1.jpg)  |  ![](output_images/straight_lines1_undistored.jpg)
 
@@ -51,17 +51,25 @@ transformations        | warped transformations
 
 ### Perspective Transform
 
+image with polygon       | warped image with polygon
+:-------------------------:|:-------------------------:
+![](output_images/straight_lines1_poly.jpg)  |  ![](output_images/straight_lines1_warped.jpg)
 
 ### Lane Identification
-
+![](output_images/straight_lines1_lanes.jpg
 
 ### Radius and Position
 
 ### Final Output
 
+![](output_images/straight_lines1_final.jpg) 
 
 ## Project Video
 ---
+
+<video width="320" height="240" controls>
+  <source src="project_video_with_lanes.mp4" type="video/mp4">
+</video>
 
 ## Discussion
 ---
