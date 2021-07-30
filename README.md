@@ -28,6 +28,11 @@ The goals / steps of this project are the following:
 
 ## Camera Calibration
 ---
+To work with the camera images, the first step we must do is to correct the distortions. This is done by detecting the corners of chessboards. With the obtained corners and the 3d coordinates(z=0) the opencv function calibrateCamera returns lens distortion coefficients and camera matrix, which can, later on, be used to correct the distortions. All images are now corrected by calling the function undistort. The estimated coefficients and matrix are stored in a file, that not each time the calibration must be done.
+
+Here is an example of a chessboard image with the distorted image and the corrected image:
+
+
 distorted image            | distortion-corrected image
 :-------------------------:|:-------------------------:
 ![](output_images/img1distorted.png)  |  ![](output_images/img1distorted.png)
@@ -39,11 +44,18 @@ distorted image            | distortion-corrected image
 
 ### Undistorted Image
 
+The first step of our pipeline is to undistort the images. The LaneFinder class are created by passing 
+the camera matrix and the distortion coefficients as arguments to the class. They are later used in the method get_undistored_image,
+where the actual image is corrected. We can clearly see the difference between the undistored and corrected image:
+
 distorted image            | distortion-corrected image
 :-------------------------:|:-------------------------:
 ![](test_images/straight_lines1.jpg)  |  ![](output_images/straight_lines1_undistored.jpg)
 
 ### Image Transformations
+
+The next step is to extract the information's from the image to detect the lanes. This is done by applying different thresholds to color spaces. As for color spaces, the HLS and LAB are used. From the HLS color space, the saturation and lightness channels allow separating the lanes from the road. Since the lanes are yellow or white, they have a high saturation and lightness. To these channels are different gradient thresholds(magnitude, directions) applied and combined with saturation and lightness channel. 
+Tests with various color spaces have shown, that the LAB color space provides good information about the lane position, especially in areas with shadow. These transformations are done in the method convert in the LaneFinder class. 
 
 transformations        | warped transformations
 :-------------------------:|:-------------------------:
@@ -67,8 +79,7 @@ image with polygon       | warped image with polygon
 ## Project Video
 ---
 
-
-https://github.com/MartinLampel/CarND-Advanced-Lane-Lines/blob/a8db922e72e7d4b8d9b4985f390502bf0a2fc3d7/project_video_with_lanes.mp4
+ [link to my video result](./project_video_with_lanes.mp4)
 
           
 ## Discussion
