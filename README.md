@@ -30,8 +30,8 @@ The goals / steps of this project are the following:
 ---
   
 <div style="display: table;margin: 0 auto;">
-    <img src="output_images/img1distorted.png"  alt="distorted image" /><br>    
-    <img src="output_images/img1distorted.png" width="480" alt="undistorted image" /><br>
+    <img src="output_images/img1distorted.png" alt="distorted image" /><br>    
+    <img src="output_images/img1distorted.png" alt="undistorted image" /><br>
 </div>
 
 ## Pipeline test
