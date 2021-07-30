@@ -41,9 +41,13 @@ distorted image            | undistorted image
 
 distorted image            | undistorted image
 :-------------------------:|:-------------------------:
-![](output_images/straight_lines1.jpg)  |  ![](output_images/straight_lines1_undistored.jpg)
+![](test_images/straight_lines1.jpg)  |  ![](output_images/straight_lines1_undistored.jpg)
 
 ### Image Transformations
+
+transformations        | warped transformations
+:-------------------------:|:-------------------------:
+![](output_images/straight_lines1_binary_mask.jpg)  |  ![](output_images/straight_lines1_warped_mask.jpg)
 
 ### Perspective Transform
 
