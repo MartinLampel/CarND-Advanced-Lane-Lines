@@ -29,14 +29,9 @@ The goals / steps of this project are the following:
 ## Camera Calibration
 ---
   
-<div style="float: left;width: 33.33%; padding: 5px;">
+<div style="display: table;margin: 0 auto;">
     <img src="output_images/img1distorted.png"  alt="distorted image" /><br>    
-    <b>distorted calibration image</b><br>
-</div>
-
-<div style="float: left;width: 33.33%; padding: 5px;">
     <img src="output_images/img1distorted.png" width="480" alt="undistorted image" /><br>
-    <b>undistorted calibration image</b><br>
 </div>
 
 ## Pipeline test
