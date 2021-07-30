@@ -30,12 +30,12 @@ The goals / steps of this project are the following:
 ---
   
 <p align="left">
-    <img src="output_images/img1distorted.png" alt="distorted image" /><br>    
+    <img src="output_images/img1distorted.png" width="480" alt="distorted image" /><br>    
     <b>distorted calibration image</b><br>
 </p>
 
 <p align="right">
-    <img src="output_images/img1distorted.png" alt="undistorted image" /><br>
+    <img src="output_images/img1distorted.png" width="480" alt="undistorted image" /><br>
     <b>undistorted calibration image</b><br>
 </p>
 
