@@ -92,7 +92,7 @@ This method searches for the pixels in two ways:
 
 After pixels are identified by the method `find_lane_pixels` or `search_around_poly`, the coefficients a,b,c are determined by the method `fit_polynomial`.
 
-The new coefficients are verified if they feasible in follow manner:
+The new coefficients are verified if they are feasible in follow manner:
 It is the difference between the averaged and the coefficients computed:
 ```python
 self.left_line.diffs = np.abs(self.left_line.best_fit - left_fit)
