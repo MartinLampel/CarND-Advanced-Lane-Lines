@@ -141,5 +141,6 @@ Instead of computing the difference between all coefficients, another improvemen
 
 Another issue that I have observed is the detection method for the start coordinates in the iterative search. It works not good on the challenge video. The reason is that there is a horizontal line detected, which results that there is no clear peak to find with the original approach. This can be improved by reducing the area which has been used to compute the histogram or the usage of the Sobel in the y-direction.
 
+The current implementation handles situations like driving through a tunnel not good.  The transformations can be adapted to handle such situations appropriately. 
 
 
