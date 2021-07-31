@@ -134,6 +134,9 @@ Finally the LaneFinder class is tested on the project video.
 ## Discussion
 ---
 
+
+There are a few challenges in this project. The first challenge was to find suitable transformations which work well through the entire video. After trying different combinations of transformations and various kinds of transformations, I found a solution that works well. Anonther challenge was to find an optimal criterium to switch back to iterative pixel search.
+
 The lane is well tracked throughout the entire video. 
 
 The criterium to decide which we restart with the iterative window search can be improved. The algorithm switch back to the iterative pixel search in the curve with the trees on the left side. The viewer can observe this switch. Tuning of the threshold value can improve this that the transition is smoother.
