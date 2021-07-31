@@ -128,7 +128,7 @@ The final output of the pipeline for a straight line:
 ---
 
 Finally the LaneFinder class is tested on the project video.
- [link to my video result](./project_video_with_lanes.mp4)
+ [project video result](./project_video_with_lanes.mp4)
 
           
 ## Discussion
