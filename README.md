@@ -45,7 +45,7 @@ distorted image            | distortion-corrected image
 ### Undistorted Image
 
 The first step of our pipeline is to undistort the images. The LaneFinder class are created by passing 
-the camera matrix and the distortion coefficients as arguments to the class. They are later used in the method get_undistored_image,
+the camera matrix and the distortion coefficients as arguments to the class. They are later used in the method `get_undistored_image`,
 where the actual image is corrected. We can clearly see the difference between the undistored and corrected image:
 
 distorted image            | distortion-corrected image
@@ -55,13 +55,15 @@ distorted image            | distortion-corrected image
 ### Image Transformations
 
 The next step is to extract the information's from the image to detect the lanes. This is done by applying different thresholds to color spaces. As for color spaces, the HLS and LAB are used. From the HLS color space, the saturation and lightness channels allow separating the lanes from the road. Since the lanes are yellow or white, they have a high saturation and lightness. To these channels are different gradient thresholds(magnitude, directions) applied and combined with saturation and lightness channel. 
-Tests with various color spaces have shown, that the LAB color space provides good information about the lane position, especially in areas with shadow. These transformations are done in the method convert in the LaneFinder class. 
+Tests with various color spaces have shown, that the LAB color space provides good information about the lane position, especially in areas with shadow. These transformations are done in the method `convert` in the `LaneFinder` class. 
 
 transformations        | warped transformations
 :-------------------------:|:-------------------------:
 ![](output_images/straight_lines1_binary_mask.jpg)  |  ![](output_images/straight_lines1_warped_mask.jpg)
 
 ### Perspective Transform
+
+The perspective transform into bird view with the method `warp_image` from the `LaneFinder` class. For the transformation follow coordinates has been used:
 
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
@@ -70,12 +72,38 @@ transformations        | warped transformations
 | 1000, 660     | 1080, 720      |
 | 280, 660      | 200, 720        |
 
+The destination coordinates are selected that straight lines in the original image are straight lines in the transformed image.
+
 image with polygon       | warped image with polygon
 :-------------------------:|:-------------------------:
 ![](output_images/straight_lines1_poly.jpg)  |  ![](output_images/straight_lines1_warped.jpg)
 
 ### Lane Identification
-![](output_images/straight_lines1_lanes.jpg
+The lane is modeled with a quadratic function:
+<img src="https://latex.codecogs.com/gif.latex?x%20%3D%20ay%5E2&plus;by&plus;c"/>
+
+The lane detection starts with the method `find_lanes`.
+This method searches for the pixels in two ways:
+* The first one is the iterative search, wherein each step a window has applied to the image. Inside this window, the pixels belong to the lane. 
+ This approach has been used when one of these conditions match:
+  - It's the first image and no line is known.
+  - A line has already been found, but the last fit is not a feasible result, so execute an iterative search.
+* The second method search around in the area of the previous fit.
+
+After pixels are identified by the method `find_lane_pixels` or `search_around_poly`, the coefficients a,b,c are determined by the method `fit_polynomial`.
+
+The new coefficients are verified if they feasible in follow manner:
+It is the difference between the averaged and the coefficients computed:
+```python
+self.left_line.diffs = np.abs(self.left_line.best_fit - left_fit)
+self.right_line.diffs = np.abs(self.right_line.best_fit - right_fit)
+```
+
+If the condition `np.mean(self.left_line.diffs + self.right_line.diffs) > 10` is true, the actual fit is replaced through the averaged coefficients
+and the detected line is set to false. 
+If the coefficients are valid, they added to a list of the coefficients. The average coefficients are computed when 7 fits are valid.
+Here is a example of the pixel detection for a straight line:
+![](output_images/straight_lines1_lanes.jpg)
 
 ### Radius and Position
 
