@@ -118,15 +118,28 @@ than we show the text straight line instead the curve radius.
 
 ### Final Output
 
+In the final step the lane is marked in the empty warped image. The coordinates of the polygon computed with the fit coefficients. Then the polygon 
+is drawn on the empty image and transformed back with the inverse transformation matrix. Then it is combined with original image. 
+
+The final output of the pipeline for a straight line:
 ![](output_images/straight_lines1_final.jpg) 
 
 ## Project Video
 ---
 
+Finally the LaneFinder class is tested on the project video.
  [link to my video result](./project_video_with_lanes.mp4)
 
           
 ## Discussion
 ---
+
+The lane is well tracked throughout the entire video. 
+
+The criterium to decide which we restart with the iterative window search can be improved. The algorithm switch back to the iterative pixel search in the curve with the trees on the left side. The viewer can observe this switch. Tuning of the threshold value can improve this that the transition is smoother.
+Instead of computing the difference between all coefficients, another improvement compares the coefficients directly. 
+
+Another issue that I have observed is the detection method for the start coordinates in the iterative search. It works not good on the challenge video. The reason is that there is a horizontal line detected, which results that there is no clear peak to find with the original approach. This can be improved by reducing the area which has been used to compute the histogram or the usage of the Sobel in the y-direction.
+
 
 
