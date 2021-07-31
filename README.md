@@ -106,6 +106,15 @@ Here is a example of the pixel detection for a straight line:
 ![](output_images/straight_lines1_lanes.jpg)
 
 ### Radius and Position
+The radius of the curvature can be computed with follow equation:
+
+<img src="https://latex.codecogs.com/gif.latex?R_%7BCurve%7D%20%3D%20%5Cfrac%7B%281&plus;%282Ay&plus;B%29%5E2%29%29%5E%7B%5Cfrac%7B3%7D%7B2%7D%7D%7D%7B%7C2A%7C%7D"/>
+
+This equation is implemented as anonymous function in the method `find_lanes`,line 264. This function expects the coefficients and the y coordinate. 
+The vehicle position is computed in the method `draw_lane_info`. 
+We assume that the car is in the middle of the image. In the next step, we compute the lane center with the width with the last x coordinates. The offset was obtained by the difference between the lane center and the car position. Finally, it is converted into meter and shown together with curve radius in an info box in the 
+center top of the image. To separate between a curve and straight line, we compute the standard deviation of each line. Is the standard deviation small, 
+than we show the text straight line instead the curve radius. 
 
 ### Final Output
 
